@@ -6,9 +6,27 @@ const contactForm = document.querySelector('.contact form');
 const learnMoreBtn = document.querySelector('.hero button');
 const features = document.querySelectorAll('.feature');
 const serviceItems = document.querySelectorAll('.service-item');
+const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+const nav = document.querySelector('nav');
 
 // On load animations
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile menu toggle
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            nav.classList.toggle('active');
+        });
+        
+        // Close mobile menu when a link is clicked
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenuToggle.classList.remove('active');
+                nav.classList.remove('active');
+            });
+        });
+    }
+    
     // Smooth scrolling for navigation links
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -78,6 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize ScrollReveal for animations on scroll
     initScrollReveal();
+    
+    // Initial call to highlight active nav
+    highlightActiveNavLink();
 });
 
 // Scroll events
@@ -93,6 +114,15 @@ window.addEventListener('scroll', function() {
     
     // Highlight active nav link based on scroll position
     highlightActiveNavLink();
+});
+
+// Window resize handler
+window.addEventListener('resize', function() {
+    // Reset mobile menu if window is resized larger than mobile breakpoint
+    if (window.innerWidth > 768 && nav.classList.contains('active')) {
+        mobileMenuToggle.classList.remove('active');
+        nav.classList.remove('active');
+    }
 });
 
 // Function to highlight the active nav link
